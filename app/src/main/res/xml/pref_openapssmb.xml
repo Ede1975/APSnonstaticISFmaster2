@@ -113,6 +113,63 @@
             validate:minNumber="15"
             validate:testType="numericRange" />
 
+        <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
+            android:defaultValue="100"
+            android:enabled="true"
+            android:dialogMessage="@string/DynISFAdjust_summary"
+            android:inputType="numberDecimal"
+            android:key="@string/key_DynISFAdjust"
+            android:title="@string/DynISFAdjust_title"
+            validate:floatmaxNumber="300"
+            validate:floatminNumber="1"
+            validate:testType="floatNumericRange" />
+
+        <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
+            android:defaultValue="250"
+            android:enabled="true"
+            android:dialogMessage="@string/DynISFAdjust_summary"
+            android:inputType="numberDecimal"
+            android:key="@string/key_isf100"
+            android:title="@string/isf100_title"
+            validate:floatmaxNumber="400"
+            validate:floatminNumber="1"
+            validate:testType="floatNumericRange" /> /*MFchange*/
+
+        <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
+            android:defaultValue="150"
+            android:enabled="true"
+            android:dialogMessage="@string/DynISFAdjust_summary"
+            android:inputType="numberDecimal"
+            android:key="@string/key_isf200"
+            android:title="@string/isf200_title"
+            validate:floatmaxNumber="400"
+            validate:floatminNumber="1"
+            validate:testType="floatNumericRange" /> /*MFchange*/
+
+
+        <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
+            android:defaultValue="200"
+            android:enabled="true"
+            android:dialogMessage="@string/DynISFAdjust_summary"
+            android:inputType="numberDecimal"
+            android:key="@string/key_MaxUsedDynISF"
+            android:title="@string/MaxUsedDynISF_title"
+            validate:floatmaxNumber="500"
+            validate:floatminNumber="1"
+            validate:testType="floatNumericRange" /> /*MFchange*/
+
+        <info.nightscout.androidaps.utils.textValidator.ValidatingEditTextPreference
+            android:defaultValue="200"
+            android:enabled="true"
+            android:dialogMessage="@string/DynISFAdjust_summary"
+            android:inputType="numberDecimal"
+            android:key="@string/key_MinUsedDynISF"
+            android:title="@string/MinUsedDynISF_title"
+            validate:floatmaxNumber="400"
+            validate:floatminNumber="1"
+            validate:testType="floatNumericRange" /> /*MFchange*/
+
+
 
         <SwitchPreference
             android:defaultValue="false"

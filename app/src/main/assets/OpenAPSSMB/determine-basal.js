@@ -277,11 +277,87 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
 
     var profile_sens = round(profile.sens,1)
     var sens = profile.sens;
+
+
+
+
+   /*Start changes MF*/
+    var now = new Date().getHours();
+               if (now < 1){
+                   now = 1;}
+               else {
+                   console.error("Time now is "+now+"; ");
+               }
+
+               console.error("---------------------------------------------------------");
+               console.error( " nonStatic ISF Test ");
+               console.error("---------------------------------------------------------");
+
+
+
+
+var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
+        var isf100 = profile.isf100; /*MFchange*/
+        var isf200 = profile.isf200; /*MFchange*/
+        var minuseddynisf = profile.MinUsedDynISF;/*MFchange*/
+        var maxuseddynisf = profile.MaxUsedDynISF;/*MFchange*/
+        var bgcalc;/*MFchange*/
+
+        var dynISFadjust = ( dynISFadjust / 100 );
+
+        bgcalc=bg; /*MFchange*/
+        console.error("current BG is " +bgcalc+ ";"); /*MFchange*/
+        /*if (bg <minbg4dynisf) bgcalc=minbg4dynisf; MFchange*/
+
+        console.error("using BG of "+bgcalc+" for calculations;"); /*MFchange*/
+        var shift=2*isf200-isf100;
+        var magicnumber=100*isf100-100*shift;
+
+        /*var variable_sens = (277700 / ( TDD * bgcalc)); /*MFchange*/
+        var variable_sens = ((magicnumber / (bgcalc) )+shift);
+        console.error("Calculated ISF based on formula: " +magicnumber+"/"+bgcalc+"+"+shift+" without adjustement factor is: "+variable_sens+ ";");
+        variable_sens=variable_sens/dynISFadjust;
+        console.error("Calculated ISF with adjustement factor of " +dynISFadjust+" is: " +variable_sens+ ";");
+        /*MFchange*/
+
+        if (variable_sens > maxuseddynisf) {
+        console.error("calculated Dynisf " +variable_sens+ " is above max allowed ISF of "+maxuseddynisf+" so using " +maxuseddynisf+";")
+        variable_sens=maxuseddynisf; /*MFchange*/
+
+        }
+
+
+
+        if (variable_sens < minuseddynisf) {
+                console.error("calculated Dynisf " +variable_sens+ " is lower than min allowed ISF of "+minuseddynisf+" so using " +minuseddynisf+";")
+                variable_sens=minuseddynisf; /*MFchange*/
+            }
+        variable_sens = round(variable_sens,1);
+        if (dynISFadjust > 1 ) {
+            console.log("TDD adjustment factor is: " +dynISFadjust+"; ");
+            console.log("TDD adjusted to "+TDD+" using adjustment factor of "+dynISFadjust+"; ");
+            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
+        }
+        else if (dynISFadjust < 1 ){
+            console.log("TDD adjustment factor is: " +dynISFadjust+"; ");
+            console.log("TDD adjusted to "+TDD+" using adjustment factor of "+dynISFadjust+"; ");
+            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
+        } else {
+            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
+        }
+        sens = variable_sens;
+
+
+
+/*End changes MF*/
+
+
     if (typeof autosens_data !== 'undefined' && autosens_data) {
-        sens = profile.sens / sensitivityRatio;
+        /*sens = profile.sens / sensitivityRatio;*/
+        sens = variable_sens / sensitivityRatio;
         sens = round(sens, 1);
         if (sens !== profile_sens) {
-            console.log("ISF from "+profile_sens+" to "+sens);
+            console.log("ISF from "+variable_sens+" to "+sens);
         } else {
             console.log("ISF unchanged: "+sens);
         }
@@ -699,6 +775,31 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
     }
 
     console.error("UAM Impact:",uci,"mg/dL per 5m; UAM Duration:",UAMduration,"hours");
+
+ console.log("EventualBG is" +eventualBG+" ;");
+
+         if (bg > target_bg && glucose_status.delta < 3 && glucose_status.delta > -3 && glucose_status.short_avgdelta > -3 && glucose_status.short_avgdelta < 3 && eventualBG > target_bg && eventualBG < bg ) {
+             /*var future_sens = ( 277700 / (TDD * ((eventualBG * 0.5) + (bg * 0.5) ) ) );*/
+             var future_sens = ( magicnumber / ((eventualBG * 0.5) + (bg * 0.5) ) ) +shift;
+                 console.log("Future state sens is " +future_sens+" based on eventual and current bg due to flat glucose level above target");
+                 rT.reason += "Dosing sensitivity: " +future_sens+" using eventual BG;";
+         }
+
+         else if( glucose_status.delta > 0 && eventualBG > target_bg ) {
+             /*var future_sens = ( 277700 / (TDD * bg) );*/
+             var future_sens = ( (magicnumber / (bg))+shift );
+             console.log("Future state sens is " +future_sens+" using current bg due to small delta or variation");
+             rT.reason += "Dosing sensitivity: " +future_sens+" using current BG;";
+             }
+
+         else {
+             /*var future_sens = ( 277700 / (TDD * eventualBG) );*/
+             var future_sens = ( (magicnumber / (eventualBG))+shift );
+         console.log("Future state sensitivity is " +future_sens+" based on eventual bg due to -ve delta");
+         rT.reason += "Dosing sensitivity: " +future_sens+" using eventual BG;";
+         }
+         var future_sens = round(future_sens,1);
+
 
 
     minIOBPredBG = Math.max(39,minIOBPredBG);

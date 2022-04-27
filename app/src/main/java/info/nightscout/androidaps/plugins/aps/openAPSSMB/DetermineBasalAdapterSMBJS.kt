@@ -216,6 +216,11 @@ class DetermineBasalAdapterSMBJS internal constructor(private val scriptReader: 
         this.profile.put("enableSMB_after_carbs", smbEnabled && sp.getBoolean(R.string.key_enableSMB_after_carbs, false) && advancedFiltering)
         this.profile.put("maxSMBBasalMinutes", sp.getInt(R.string.key_smbmaxminutes, SMBDefaults.maxSMBBasalMinutes))
         this.profile.put("maxUAMSMBBasalMinutes", sp.getInt(R.string.key_uamsmbmaxminutes, SMBDefaults.maxUAMSMBBasalMinutes))
+        this.profile.put("DynISFAdjust",  SafeParse.stringToDouble(sp.getString(R.string.key_DynISFAdjust,"100")))
+        this.profile.put("isf100",  SafeParse.stringToDouble(sp.getString(R.string.key_isf100, "250"))) /*MFchange*/
+        this.profile.put("isf200",  SafeParse.stringToDouble(sp.getString(R.string.key_isf200, "150"))) /*MFchange*/
+        this.profile.put("MaxUsedDynISF",  SafeParse.stringToDouble(sp.getString(R.string.key_MaxUsedDynISF,"300"))) /*MFchange*/
+        this.profile.put("MinUsedDynISF",  SafeParse.stringToDouble(sp.getString(R.string.key_MinUsedDynISF,"120"))) /*MFchange*/
         //set the min SMB amount to be the amount set by the pump.
         this.profile.put("bolus_increment", pumpBolusStep)
         this.profile.put("carbsReqThreshold", sp.getInt(R.string.key_carbsReqThreshold, SMBDefaults.carbsReqThreshold))

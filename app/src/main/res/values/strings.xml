@@ -893,6 +893,17 @@
 
     <string name="key_smbmaxminutes" translatable="false">smbmaxminutes</string>
     <string name="key_uamsmbmaxminutes" translatable="false">uamsmbmaxminutes</string>
+    <string name="key_DynISFAdjust" translatable="false">DynISFAdjust</string>
+    <string name="key_isf100" translatable="false">isf100</string> /*MFchange*/
+    <string name="key_isf200" translatable="false">isf200</string> /*MFchange*/
+    <string name="key_MaxUsedDynISF" translatable="false">MaxUsedDynISF</string> /*MFchange*/
+    <string name="key_MinUsedDynISF" translatable="false">MinUsedDynISF</string> /*MFchange*/
+    <string name="DynISFAdjust_title">DynamicISF Adjustment Factor %%</string>
+    <string name="isf100_title">ISF at 100</string> /*MFchange*/
+    <string name="MaxUsedDynISF_title">Maximal used DynamicISF</string> /*MFchange*/
+    <string name="isf200_title">ISF at 200</string> /*MFchange*/
+    <string name="MinUsedDynISF_title">Minimal used DynamicISF</string> /*MFchange*/
+    <string name="DynISFAdjust_summary">Adjustment factor for DynamicISF. Set more than 100%% for more aggressive correction doses, and less than 100%% for less aggressive corrections.</string>
     <string name="dst_plugin_name" translatable="false">Daylight Saving time</string>
     <string name="dst_in_24h_warning">Daylight Saving time change in 24h or less</string>
     <string name="dst_loop_disabled_warning">Daylight Saving time change less than 3 hours ago - Closed loop disabled</string>
