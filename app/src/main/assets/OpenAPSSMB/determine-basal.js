@@ -315,7 +315,7 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
         /*var variable_sens = (277700 / ( TDD * bgcalc)); /*MFchange*/
         var variable_sens = ((magicnumber / (bgcalc) )+shift);
-        console.error("Calculated ISF based on formula: " +magicnumber+"/"+bgcalc+"+"+shift+" without adjustement factor is: "+variable_sens+ ";");
+        console.error("Calculated ISF based on formula: " +magicnumber+"/"+bgcalc+"+("+shift+") without adjustement factor is: "+variable_sens+ ";");
         variable_sens=variable_sens/dynISFadjust;
         console.error("Calculated ISF with adjustement factor of " +dynISFadjust+" is: " +variable_sens+ ";");
         /*MFchange*/
@@ -326,25 +326,12 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
         }
 
-
-
         if (variable_sens < minuseddynisf) {
                 console.error("calculated Dynisf " +variable_sens+ " is lower than min allowed ISF of "+minuseddynisf+" so using " +minuseddynisf+";")
                 variable_sens=minuseddynisf; /*MFchange*/
             }
         variable_sens = round(variable_sens,1);
-        if (dynISFadjust > 1 ) {
-            console.log("TDD adjustment factor is: " +dynISFadjust+"; ");
-            console.log("TDD adjusted to "+TDD+" using adjustment factor of "+dynISFadjust+"; ");
-            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
-        }
-        else if (dynISFadjust < 1 ){
-            console.log("TDD adjustment factor is: " +dynISFadjust+"; ");
-            console.log("TDD adjusted to "+TDD+" using adjustment factor of "+dynISFadjust+"; ");
-            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
-        } else {
-            console.log("Current sensitivity for predictions is " +variable_sens+" based on current bg");
-        }
+
         sens = variable_sens;
 
 
@@ -356,12 +343,12 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         /*sens = profile.sens / sensitivityRatio;*/
         sens = variable_sens / sensitivityRatio;
         sens = round(sens, 1);
-        if (sens !== profile_sens) {
-            console.log("ISF from "+variable_sens+" to "+sens);
+        /*if (sensitivityRatio<>1) {
+            console.log("Autosense changes ISF from "+variable_sens+" to "+sens);
         } else {
             console.log("ISF unchanged: "+sens);
-        }
-        //console.log(" (autosens ratio "+sensitivityRatio+")");
+        }*/
+        console.log(" (autosens ratio "+sensitivityRatio+")");
     }
     console.error("; CR:",profile.carb_ratio);
 
