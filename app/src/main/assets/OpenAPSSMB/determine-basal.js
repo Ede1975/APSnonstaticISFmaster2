@@ -343,11 +343,11 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         /*sens = profile.sens / sensitivityRatio;*/
         sens = variable_sens / sensitivityRatio;
         sens = round(sens, 1);
-        /*if (sensitivityRatio<>1) {
+        if (sensitivityRatio!==1) {
             console.log("Autosense changes ISF from "+variable_sens+" to "+sens);
         } else {
             console.log("ISF unchanged: "+sens);
-        }*/
+        }
         console.log(" (autosens ratio "+sensitivityRatio+")");
     }
     console.error("; CR:",profile.carb_ratio);
@@ -768,6 +768,8 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
          if (bg > target_bg && glucose_status.delta < 3 && glucose_status.delta > -3 && glucose_status.short_avgdelta > -3 && glucose_status.short_avgdelta < 3 && eventualBG > target_bg && eventualBG < bg ) {
              /*var future_sens = ( 277700 / (TDD * ((eventualBG * 0.5) + (bg * 0.5) ) ) );*/
              var future_sens = ( magicnumber / ((eventualBG * 0.5) + (bg * 0.5) ) ) +shift;
+             if (future_sens<minuseddynisf) future_sens=minuseddynisf;
+             if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
                  console.log("Future state sens is " +future_sens+" based on eventual and current bg due to flat glucose level above target");
                  rT.reason += "Dosing sensitivity: " +future_sens+" using eventual BG;";
          }
@@ -775,6 +777,8 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
          else if( glucose_status.delta > 0 && eventualBG > target_bg ) {
              /*var future_sens = ( 277700 / (TDD * bg) );*/
              var future_sens = ( (magicnumber / (bg))+shift );
+             if (future_sens<minuseddynisf) future_sens=minuseddynisf;
+             if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
              console.log("Future state sens is " +future_sens+" using current bg due to small delta or variation");
              rT.reason += "Dosing sensitivity: " +future_sens+" using current BG;";
              }
@@ -782,6 +786,8 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
          else {
              /*var future_sens = ( 277700 / (TDD * eventualBG) );*/
              var future_sens = ( (magicnumber / (eventualBG))+shift );
+             if (future_sens<minuseddynisf) future_sens=minuseddynisf;
+             if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
          console.log("Future state sensitivity is " +future_sens+" based on eventual bg due to -ve delta");
          rT.reason += "Dosing sensitivity: " +future_sens+" using eventual BG;";
          }
