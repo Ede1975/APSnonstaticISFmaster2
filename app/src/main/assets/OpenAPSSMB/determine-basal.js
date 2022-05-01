@@ -341,7 +341,7 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
     if (typeof autosens_data !== 'undefined' && autosens_data) {
         /*sens = profile.sens / sensitivityRatio;*/
-        sens = variable_sens / sensitivityRatio;
+        sens = sens / sensitivityRatio;
         sens = round(sens, 1);
         if (sensitivityRatio!==1) {
             console.log("Autosense changes ISF from "+variable_sens+" to "+sens);
