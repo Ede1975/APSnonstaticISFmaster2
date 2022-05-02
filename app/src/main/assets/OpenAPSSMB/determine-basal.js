@@ -297,7 +297,10 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
 
 
 var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
-        var isf100 = profile.isf100; /*MFchange*/
+        var current_isf = profile.sens;
+        /*var isf100 = profile.isf100; /*MFchange*/
+        /*use current profile ISF as ISF100*/
+        var isf100=current_isf;
         var isf200 = profile.isf200; /*MFchange*/
         var minuseddynisf = profile.MinUsedDynISF;/*MFchange*/
         var maxuseddynisf = profile.MaxUsedDynISF;/*MFchange*/
@@ -306,6 +309,7 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var dynISFadjust = ( dynISFadjust / 100 );
 
         bgcalc=bg; /*MFchange*/
+        console.error("current Profile ISF is " +current_isf+ ";"); /*MFchange*/
         console.error("current BG is " +bgcalc+ ";"); /*MFchange*/
         /*if (bg <minbg4dynisf) bgcalc=minbg4dynisf; MFchange*/
 
@@ -337,6 +341,8 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
 
 /*End changes MF*/
+
+
 
 
     if (typeof autosens_data !== 'undefined' && autosens_data) {
