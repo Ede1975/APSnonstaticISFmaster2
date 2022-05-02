@@ -299,7 +299,7 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
 var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var current_isf = profile.sens;
         /*var isf100 = profile.isf100; /*MFchange*/
-        /*use current profile ISF as ISF100*/
+        /*use current profile ISF as ISF100 for calculations*/
         var isf100=current_isf;
         var isf200 = profile.isf200; /*MFchange*/
         var minuseddynisf = profile.MinUsedDynISF;/*MFchange*/
