@@ -18,7 +18,8 @@ I am not a professional programmer, this has to be used careful as a dev version
 Nevertheless i use this version for my son with good results so far
 
 Reason to build this version was:
--unfortunately the dynamic ISF approach from TimS and ChrisW is not working well for my son
+
+- unfortunately the dynamic ISF approach from TimS and ChrisW is not working well for my son
 - the current bug in dev-i,
 - and i wanted more control back and some kind of circadian behaviour back in ISF values
 
