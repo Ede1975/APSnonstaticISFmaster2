@@ -3,20 +3,25 @@
 - Build on AAPS master
 
 - Changes to default behaviour:
-profile ISF will be used as ISF@BG 100
-in the SMB Tab ISF@200 has to be defined
-also define max and min ISF allowed for safety reasons
-a formula will be used to calculate the current ISF:
-ISF=m/bg+a
 
-where m and a will be calculated from the ISFs defined at BG100 (from profile) and BG200.
-This way the curve will vary over the day a bit if different ISF values are defined areounf the clock in profile
+- profile ISF will be used as ISF@BG 100 around the clock
+- in the SMB Tab ISF@200 has to be defined once
+- also define max and min ISF allowed for safety reasons in SMB Tab
+- then a formula will be derived from current ISF@100 and ISF@200 to calculate the current ISF:
+- ISF(bg)=m/bg+a, where m and a have been caluculated to match the given ISF@100 and ISF@200;
+
+
+This way the curve will vary over the day a bit if different ISF values are defined around the clock in profile;
 ISF@200 does not change.
 
-I am not a professional programmer, this has to be used as a dev version!
+I am not a professional programmer, this has to be used careful as a dev version!
 Nevertheless i use this version for my son with good results so far
 
-Reason to build this version was that unfortunately the dynamic ISF approach from TimS and ChrisW is not working well for my son an i wanted more control back and some kind of circadian behaviour back in ISF values
+Reason to build this version was:
+
+- unfortunately the dynamic ISF approach from TimS and ChrisW is not working well for my son
+- the current bug in dev-i,
+- and i wanted more control back and some kind of circadian behaviour back in ISF values
 
 
 
