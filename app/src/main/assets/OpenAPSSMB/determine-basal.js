@@ -300,8 +300,10 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var current_isf = profile.sens;
         /*var isf100 = profile.isf100; /*MFchange*/
         /*use current profile ISF as ISF100 for calculations*/
-        var isf100=current_isf;
-        var isf200 = profile.isf200; /*MFchange*/
+        var isfref=current_isf;
+        var isf100=isfref*1.6;
+        var isf200=isfref*0.8;
+        /*var isf200 = profile.isf200; /*MFchange*/
         var minuseddynisf = profile.MinUsedDynISF;/*MFchange*/
         var maxuseddynisf = profile.MaxUsedDynISF;/*MFchange*/
         var bgcalc;/*MFchange*/
@@ -314,11 +316,14 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         /*if (bg <minbg4dynisf) bgcalc=minbg4dynisf; MFchange*/
 
         console.error("using BG of "+bgcalc+" for calculations;"); /*MFchange*/
-        var shift=2*isf200-isf100;
+        var shift=(200*isf200-100*isf100)/100;
         var magicnumber=100*isf100-100*shift;
+        var isf250=(magicnumber/250)+shift;
+        var isf300=(magicnumber/300)+shift;
 
         /*var variable_sens = (277700 / ( TDD * bgcalc)); /*MFchange*/
         var variable_sens = ((magicnumber / (bgcalc) )+shift);
+        console.error("ISF100 is:"+isf100+";isf200 is:"+isf200+" and calculated isf250 is:"+isf250+" and isf300 is:"+isf300+";");
         console.error("Calculated ISF based on formula: " +magicnumber+"/"+bgcalc+"+("+shift+") without adjustement factor is: "+variable_sens+ ";");
         variable_sens=variable_sens/dynISFadjust;
         console.error("Calculated ISF with adjustement factor of " +dynISFadjust+" is: " +variable_sens+ ";");
