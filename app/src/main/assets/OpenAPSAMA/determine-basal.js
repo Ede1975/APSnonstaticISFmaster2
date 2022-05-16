@@ -185,7 +185,8 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
     // min_bg of 90 -> threshold of 70, 110 -> 80, and 130 -> 90
     /*var threshold = min_bg - 0.5*(min_bg-50);*/
 
-    var lgsThreshold = profile.lgsThreshold;
+
+   var lgsThreshold = profile.lgsThreshold;
         if(lgsThreshold < 65){
             var threshold = min_bg - 0.5*(min_bg-40);
             }

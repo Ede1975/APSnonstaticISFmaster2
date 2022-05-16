@@ -303,6 +303,43 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var isfref=current_isf;
         var isf100=isfref*1.6;
         var isf200=isfref*0.8;
+
+        var bg1= profile.isfbg1;
+        var bg2= profile.isfbg2;
+        var bg3= profile.isfbg3;
+        var factor1= (profile.factorisfbg1)/100;
+        var factor2= (profile.factorisfbg2)/100;
+        var factor3= (profile.factorisfbg3)/100;
+
+
+        var isf_bg1=current_isf*factor1;
+        var isf_bg2=current_isf*factor2;
+        var isf_bg3=current_isf*factor3;
+
+        console.error("From profile:");
+        console.error("BG1="+bg1+";");
+        console.error("BG2="+bg2+";");
+        console.error("BG3="+bg3+";");
+        console.error("FactorBG1="+factor1+";");
+        console.error("FactorBG2="+factor2+";");
+        console.error("FactorBG3="+factor3+";");
+
+        console.error("current Profile ISF is " +current_isf+ ";"); /*MFchange*/
+
+        console.error("So calculated values from current profile ISF are:");
+        console.error("ISF@BG1="+isf_bg1+";");
+        console.error("ISF@BG2="+isf_bg2+";");
+        console.error("ISF@BG3="+isf_bg3+";");
+
+        var a1=((bg2*isf_bg2)-(bg1*isf_bg1))/(bg2-bg1);
+        var a2=((bg3*isf_bg3)-(bg2*isf_bg2))/(bg3-bg2);
+        var m1=(bg2*isf_bg2)-(bg2*a1);
+        var m2=(bg3*isf_bg3)-(bg3*a2);
+
+        console.error("current BG is " +bgcalc+ ";"); /*MFchange*/
+
+
+
         /*var isf200 = profile.isf200; /*MFchange*/
         var minuseddynisf = profile.MinUsedDynISF;/*MFchange*/
         var maxuseddynisf = profile.MaxUsedDynISF;/*MFchange*/
@@ -311,20 +348,44 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var dynISFadjust = ( dynISFadjust / 100 );
 
         bgcalc=bg; /*MFchange*/
-        console.error("current Profile ISF is " +current_isf+ ";"); /*MFchange*/
-        console.error("current BG is " +bgcalc+ ";"); /*MFchange*/
+
+
+
         /*if (bg <minbg4dynisf) bgcalc=minbg4dynisf; MFchange*/
 
+        console.error("For curve1, bg<BG2 using formula: " +m1+"/bg+"+a1+";");
+        console.error("For curve2, bg>BG2 using formula: " +m2+"/bg+"+a2+";");
+
+
         console.error("using BG of "+bgcalc+" for calculations;"); /*MFchange*/
+        /*
         var shift=(200*isf200-100*isf100)/100;
         var magicnumber=100*isf100-100*shift;
         var isf250=(magicnumber/250)+shift;
         var isf300=(magicnumber/300)+shift;
+        */
 
         /*var variable_sens = (277700 / ( TDD * bgcalc)); /*MFchange*/
-        var variable_sens = ((magicnumber / (bgcalc) )+shift);
-        console.error("ISF100 is:"+isf100+";isf200 is:"+isf200+" and calculated isf250 is:"+isf250+" and isf300 is:"+isf300+";");
-        console.error("Calculated ISF based on formula: " +magicnumber+"/"+bgcalc+"+("+shift+") without adjustement factor is: "+variable_sens+ ";");
+
+if (bgcalc>bg2) {
+        console.error("bg>bg2, using curve2")
+        }
+
+        if (bgcalc<500) {
+        var variable_sens = (m2/bgcalc)+a2;
+        }
+
+        if (bgcalc<bg2) {
+                var variable_sens = (m1/bgcalc)+a1;
+                console.error("bg<bg2, using curve1")
+                }
+
+
+
+
+        /*var variable_sens = ((magicnumber / (bgcalc) )+shift);*/
+
+        console.error("Calculated ISF without adjustement factor is: "+variable_sens+ ";");
         variable_sens=variable_sens/dynISFadjust;
         console.error("Calculated ISF with adjustement factor of " +dynISFadjust+" is: " +variable_sens+ ";");
         /*MFchange*/
@@ -472,7 +533,16 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
     }
 
     // min_bg of 90 -> threshold of 65, 100 -> 70 110 -> 75, and 130 -> 85
-    var threshold = min_bg - 0.5*(min_bg-40);
+    //var threshold = min_bg - 0.5*(min_bg-40);
+
+var lgsThreshold = profile.lgsThreshold;
+        if(lgsThreshold < 65){
+            var threshold = min_bg - 0.5*(min_bg-40);
+            }
+        else {
+            var threshold = lgsThreshold;
+            }
+        console.error("Low glucose suspend threshold: "+threshold);
 
     //console.error(reservoir_data);
 
@@ -778,7 +848,21 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
          if (bg > target_bg && glucose_status.delta < 3 && glucose_status.delta > -3 && glucose_status.short_avgdelta > -3 && glucose_status.short_avgdelta < 3 && eventualBG > target_bg && eventualBG < bg ) {
              /*var future_sens = ( 277700 / (TDD * ((eventualBG * 0.5) + (bg * 0.5) ) ) );*/
-             var future_sens = ( magicnumber / ((eventualBG * 0.5) + (bg * 0.5) ) ) +shift;
+             /*var future_sens = ( m1 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a1;*/
+             if (bg>bg2)
+              {
+                    console.error("using curve2 for future sense;")
+                                  }
+
+             if (bg<500) {
+                     var future_sens = ( m2 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a2;
+                     }
+
+                     if (bg<bg2) {
+                             var future_sens = ( m1 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a1;
+                             console.error("bg<bg2, using curve1 for future state sense;")
+                             }
+
              if (future_sens<minuseddynisf) future_sens=minuseddynisf;
              if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
                  console.log("Future state sens is " +future_sens+" based on eventual and current bg due to flat glucose level above target");
@@ -787,7 +871,21 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
          else if( glucose_status.delta > 0 && eventualBG > target_bg ) {
              /*var future_sens = ( 277700 / (TDD * bg) );*/
-             var future_sens = ( (magicnumber / (bg))+shift );
+             /*var future_sens = ( (m1 / (bg))+a1 );*/
+             if (eventualBG>bg2)
+                           {
+                                 console.error("using curve2 for future sense;")
+                                               }
+
+                          if (bg<500) {
+                                  var future_sens = ( m2 / bg ) +a2;
+                                  }
+
+                                  if (bg<bg2) {
+                                          var future_sens = ( m1 / bg ) +a1;
+                                          console.error("bg<bg2, using curve1 for future state sense;")
+                                          }
+
              if (future_sens<minuseddynisf) future_sens=minuseddynisf;
              if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
              console.log("Future state sens is " +future_sens+" using current bg due to small delta or variation");
@@ -796,7 +894,21 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
          else {
              /*var future_sens = ( 277700 / (TDD * eventualBG) );*/
-             var future_sens = ( (magicnumber / (eventualBG))+shift );
+             /*var future_sens = ( (m1 / (eventualBG))+a1 );*/
+             if (bg>bg2)
+                                        {
+                                              console.error("using curve2 for future sense;")
+                                                            }
+
+                                       if (bg<500) {
+                                               var future_sens = ( m2 / eventualBG ) +a2;
+                                               }
+
+                                               if (bg<bg2) {
+                                                       var future_sens = ( m1 / eventualBG ) +a1;
+                                                       console.error("bg<bg2, using curve1 for future state sense;")
+                                                       }
+
              if (future_sens<minuseddynisf) future_sens=minuseddynisf;
              if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
          console.log("Future state sensitivity is " +future_sens+" based on eventual bg due to -ve delta");

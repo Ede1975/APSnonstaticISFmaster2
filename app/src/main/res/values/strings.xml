@@ -898,14 +898,34 @@
     <string name="key_uamsmbmaxminutes" translatable="false">uamsmbmaxminutes</string>
     <string name="key_DynISFAdjust" translatable="false">DynISFAdjust</string>
 
-    <string name="key_isf200" translatable="false">isf200</string> /*MFchange*/
+    <string name="key_isfbg1" translatable="false">isfbg1</string> /*MFchange*/
+    <string name="key_isfbg2" translatable="false">isfbg2</string> /*MFchange*/
+    <string name="key_isfbg3" translatable="false">isfbg3</string> /*MFchange*/
+    <string name="key_factorisfbg1" translatable="false">factorisfbg1</string> /*MFchange*/
+    <string name="key_factorisfbg2" translatable="false">factorisfbg2</string> /*MFchange*/
+    <string name="key_factorisfbg3" translatable="false">factorisfbg3</string> /*MFchange*/
+
+
     <string name="key_MaxUsedDynISF" translatable="false">MaxUsedDynISF</string> /*MFchange*/
     <string name="key_MinUsedDynISF" translatable="false">MinUsedDynISF</string> /*MFchange*/
     <string name="DynISFAdjust_title">DynamicISF Adjustment Factor %%</string>
+    <string name="isfbg1_title">BG1</string> /*MFchange*/
+    <string name="isfbg2_title">BG2</string> /*MFchange*/
+    <string name="isfbg3_title">BG3</string> /*MFchange*/
+    <string name="factorisfbg1_title">factor to calculate ISF at BG1</string> /*MFchange*/
+    <string name="factorisfbg2_title">factor to calculate ISF at BG2</string> /*MFchange*/
+    <string name="factorisfbg3_title">factor to calculate ISF at BG3</string> /*MFchange*/
+
+
     <string name="MaxUsedDynISF_title">Maximal used DynamicISF</string> /*MFchange*/
-    <string name="isf200_title">ISF at 200</string> /*MFchange*/
+
+
+
+
     <string name="MinUsedDynISF_title">Minimal used DynamicISF</string> /*MFchange*/
     <string name="DynISFAdjust_summary">Adjustment factor for DynamicISF. Set more than 100%% for more aggressive correction doses, and less than 100%% for less aggressive corrections.</string>
+    <string name="BGx_summary">Define BGx to determine one of the 3 BGs for your personal formulas</string>
+    <string name="Factorx_summary">Define Factor to determine the ISF value from profile at BGx</string>
     <string name="dst_plugin_name" translatable="false">Daylight Saving time</string>
     <string name="dst_in_24h_warning">Daylight Saving time change in 24h or less</string>
     <string name="dst_loop_disabled_warning">Daylight Saving time change less than 3 hours ago - Closed loop disabled</string>

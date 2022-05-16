@@ -218,8 +218,13 @@ class DetermineBasalAdapterSMBJS internal constructor(private val scriptReader: 
         this.profile.put("maxSMBBasalMinutes", sp.getInt(R.string.key_smbmaxminutes, SMBDefaults.maxSMBBasalMinutes))
         this.profile.put("maxUAMSMBBasalMinutes", sp.getInt(R.string.key_uamsmbmaxminutes, SMBDefaults.maxUAMSMBBasalMinutes))
         this.profile.put("DynISFAdjust",  SafeParse.stringToDouble(sp.getString(R.string.key_DynISFAdjust,"100")))
-        /*this.profile.put("isf100",  SafeParse.stringToDouble(sp.getString(R.string.key_isf100, " +""250"))) MFchange*/
-        this.profile.put("isf200",  SafeParse.stringToDouble(sp.getString(R.string.key_isf200, "150"))) /*MFchange*/
+        this.profile.put("isfbg1",  SafeParse.stringToDouble(sp.getString(R.string.key_isfbg1, "100"))) /*MFchange*/
+        this.profile.put("factorisfbg1",  SafeParse.stringToDouble(sp.getString(R.string.key_factorisfbg1, "160"))) /*MFchange*/
+        this.profile.put("isfbg2",  SafeParse.stringToDouble(sp.getString(R.string.key_isfbg2, "200" )))/*MFchange*/
+        this.profile.put("factorisfbg2",  SafeParse.stringToDouble(sp.getString(R.string.key_factorisfbg2, "80"))) /*MFchange*/
+        this.profile.put("isfbg3",  SafeParse.stringToDouble(sp.getString(R.string.key_isfbg3, "300"))) /*MFchange*/
+        this.profile.put("factorisfbg3",  SafeParse.stringToDouble(sp.getString(R.string.key_factorisfbg3, "60"))) /*MFchange*/
+
         this.profile.put("MaxUsedDynISF",  SafeParse.stringToDouble(sp.getString(R.string.key_MaxUsedDynISF,"300"))) /*MFchange*/
         this.profile.put("MinUsedDynISF",  SafeParse.stringToDouble(sp.getString(R.string.key_MinUsedDynISF,"120"))) /*MFchange*/
         //set the min SMB amount to be the amount set by the pump.

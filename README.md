@@ -4,15 +4,19 @@
 
 - Changes to default behaviour:
 
-- profile ISF will be used as ISF@BG 100 around the clock
-- in the SMB Tab ISF@200 has to be defined once
+- profile ISF will be used as reference around the clock
+- in the SMB Tab 3 bg points and factors have to be defined once
 - also define max and min ISF allowed for safety reasons in SMB Tab
-- then a formula will be derived from current ISF@100 and ISF@200 to calculate the current ISF:
-- ISF(bg)=m/bg+a, where m and a have been caluculated to match the given ISF@100 and ISF@200;
+- then a formula will be derived from ISF@bg1-3 to calculate a curve for the current ISF
+- 2 curves will be calculated. curve 1 for values between bg1 and bg1, curve2 for values between 
+  bg2 and bg3
+- This way you could have your profile isf between bg1 and bg2 and a different one above bg2
+- ISF(bg)=m/bg+a, where m and a have been caluculated to match the given ISF@bg1, ISF@bg2 and 
+  ISF@bg3;
 
 
 This way the curve will vary over the day a bit if different ISF values are defined around the clock in profile;
-ISF@200 does not change.
+
 
 I am not a professional programmer, this has to be used careful as a dev version!
 Nevertheless i use this version for my son with good results so far
