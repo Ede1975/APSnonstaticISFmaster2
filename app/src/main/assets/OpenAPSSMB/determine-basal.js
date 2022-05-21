@@ -217,6 +217,7 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
         sensitivityRatio = autosens_data.ratio;
         console.log("Autosens ratio: "+sensitivityRatio+"; ");
     }
+
     if (sensitivityRatio) {
         basal = profile.current_basal * sensitivityRatio;
         basal = round_basal(basal, profile);
@@ -849,7 +850,7 @@ var lgsThreshold = profile.lgsThreshold;
          if (bg > target_bg && glucose_status.delta < 3 && glucose_status.delta > -3 && glucose_status.short_avgdelta > -3 && glucose_status.short_avgdelta < 3 && eventualBG > target_bg && eventualBG < bg ) {
              /*var future_sens = ( 277700 / (TDD * ((eventualBG * 0.5) + (bg * 0.5) ) ) );*/
              /*var future_sens = ( m1 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a1;*/
-             if (bg>bg2)
+             if (eventualBG>bg2)
               {
                     console.error("using curve2 for future sense;")
                                   }
@@ -858,7 +859,7 @@ var lgsThreshold = profile.lgsThreshold;
                      var future_sens = ( m2 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a2;
                      }
 
-                     if (bg<bg2) {
+                     if (eventualBG<bg2) {
                              var future_sens = ( m1 / ((eventualBG * 0.5) + (bg * 0.5) ) ) +a1;
                              console.error("bg<bg2, using curve1 for future state sense;")
                              }
@@ -881,7 +882,7 @@ var lgsThreshold = profile.lgsThreshold;
                                   var future_sens = ( m2 / bg ) +a2;
                                   }
 
-                                  if (bg<bg2) {
+                                  if (eventualBG<bg2) {
                                           var future_sens = ( m1 / bg ) +a1;
                                           console.error("bg<bg2, using curve1 for future state sense;")
                                           }
@@ -895,7 +896,7 @@ var lgsThreshold = profile.lgsThreshold;
          else {
              /*var future_sens = ( 277700 / (TDD * eventualBG) );*/
              /*var future_sens = ( (m1 / (eventualBG))+a1 );*/
-             if (bg>bg2)
+             if (eventualBG>bg2)
                                         {
                                               console.error("using curve2 for future sense;")
                                                             }
@@ -904,7 +905,7 @@ var lgsThreshold = profile.lgsThreshold;
                                                var future_sens = ( m2 / eventualBG ) +a2;
                                                }
 
-                                               if (bg<bg2) {
+                                               if (eventualBG<bg2) {
                                                        var future_sens = ( m1 / eventualBG ) +a1;
                                                        console.error("bg<bg2, using curve1 for future state sense;")
                                                        }
