@@ -203,6 +203,7 @@ var determine_basal = function determine_basal(glucose_status, currenttemp, iob_
                }
            console.error("Threshold set from " + convert_bg(oldThreshold, profile) + " to " + convert_bg(threshold, profile) + "; ");
 
+
     rT = {
         'temp': 'absolute'
         , 'bg': bg
