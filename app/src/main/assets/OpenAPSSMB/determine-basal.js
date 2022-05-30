@@ -302,8 +302,8 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         /*var isf100 = profile.isf100; /*MFchange*/
         /*use current profile ISF as ISF100 for calculations*/
         var isfref=current_isf;
-        var isf100=isfref*1.6;
-        var isf200=isfref*0.8;
+        /*var isf100=isfref*1.6;
+        var isf200=isfref*0.8;*/
 
         var bg1= profile.isfbg1;
         var bg2= profile.isfbg2;
@@ -337,7 +337,7 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
         var m1=(bg2*isf_bg2)-(bg2*a1);
         var m2=(bg3*isf_bg3)-(bg3*a2);
 
-        console.error("current BG is " +bgcalc+ ";"); /*MFchange*/
+        console.error("current BG is " +bg+ ";"); /*MFchange*/
 
 
 
@@ -356,6 +356,26 @@ var dynISFadjust = profile.DynISFAdjust; /*MFchange*/
 
         console.error("For curve1, bg<BG2 using formula: " +m1+"/bg+"+a1+";");
         console.error("For curve2, bg>BG2 using formula: " +m2+"/bg+"+a2+";");
+
+        console.error("Some calculated values:");
+
+       var isf150c=(m1/150)+a1;
+       var isf200c=(m1/200)+a1;
+       var isf250c=(m2/250)+a2;
+       var isf300c=(m2/300)+a2;
+       var isf350c=(m2/350)+a2;
+       var isf400c=(m2/400)+a2;
+
+       if (bg2<200) {
+       isf200c=(m2/200)+a2;
+       }
+
+       console.error("ISF150="+isf150c+";");
+       console.error("ISF200="+isf200c+";");
+       console.error("ISF250="+isf250c+";");
+       console.error("ISF300="+isf300c+";");
+       console.error("ISF350="+isf350c+";");
+       console.error("ISF400="+isf400c+";");
 
 
         console.error("using BG of "+bgcalc+" for calculations;"); /*MFchange*/
@@ -879,17 +899,17 @@ var lgsThreshold = profile.lgsThreshold;
                                                }
 
                           if (bg<500) {
-                                  var future_sens = ( m2 / bg ) +a2;
+                                  var future_sens = ( m2 / eventualBG ) +a2;
                                   }
 
                                   if (eventualBG<bg2) {
-                                          var future_sens = ( m1 / bg ) +a1;
+                                          var future_sens = ( m1 / eventualBG ) +a1;
                                           console.error("bg<bg2, using curve1 for future state sense;")
                                           }
 
              if (future_sens<minuseddynisf) future_sens=minuseddynisf;
              if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
-             console.log("Future state sens is " +future_sens+" using current bg due to small delta or variation");
+             console.log("Future state sens is " +future_sens+" using eventual bg due to positive delta or variation");
              rT.reason += "Dosing sensitivity: " +future_sens+" using current BG;";
              }
 
@@ -910,11 +930,16 @@ var lgsThreshold = profile.lgsThreshold;
                                                        console.error("bg<bg2, using curve1 for future state sense;")
                                                        }
 
+
              if (future_sens<minuseddynisf) future_sens=minuseddynisf;
              if (future_sens>maxuseddynisf) future_sens=maxuseddynisf;
+             if (eventualBG<0) future_sens=maxuseddynisf;
+
          console.log("Future state sensitivity is " +future_sens+" based on eventual bg due to -ve delta");
          rT.reason += "Dosing sensitivity: " +future_sens+" using eventual BG;";
          }
+
+
          var future_sens = round(future_sens,1);
 
 
